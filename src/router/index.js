@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RouterTestFirst from '../view/RouterTestFirst.vue'
-import RouterTestSecond from '../view/RouterTestSecond.vue'
+import MemoContents from '../view/MemoContents'
+import NewMemo from '../view/NewMome'
 
 const routes = [
   {
-    path: '/',
-    name: 'routerTestFirst',
-    component: RouterTestFirst
+    path: '/edit/:id',
+    name: 'memoContents',
+    component: MemoContents,
+    props: true
   },
   {
-    path: '/second',
-    name: 'routerTestSecond',
-    component: RouterTestSecond
+    path: '/new',
+    name: 'newMemo',
+    component: NewMemo
   }
 ]
 
