@@ -1,13 +1,14 @@
 <template>
   <div class="main">
     <textarea v-model="memoContents" placeholder="新規メモ"></textarea>
-    <button>削除</button>
-    <button @click="moveTop">登録</button>
+    <button @click="deleteMemo">削除</button>
+    <button @click="addNewMemo">登録</button>
   </div>
 </template>
 
 <script>
-import router from '@/router'
+
+import store from '@/store'
 
 export default ({
   data(){
@@ -16,8 +17,18 @@ export default ({
     }
   },
   methods: {
-    moveTop: function () {
-      router.push('/')
+    addNewMemo:function () {
+      store.commit('addMemoList', { contents: this.memoContents })
+      this.saveTodoForLocalStorage()
+      this.memoContents = ''
+      this.$router.push('/')
+    },
+    deleteMemo:function () {
+      this.memoContents = ''
+      this.$router.push('/')
+    },
+    saveTodoForLocalStorage: function () {
+      localStorage.setItem(this.$store.state.storageKey, JSON.stringify(this.$store.state.memoList))
     }
   }
 })
