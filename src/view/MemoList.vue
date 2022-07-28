@@ -10,9 +10,9 @@
         </tr>
       </div>
       <div class="memoList">
-        <tr v-for="(memo, index) in memoList" :key="index">
+        <tr v-for="(memo, index) in this.$store.state.memoList " :key="index">
           <td>
-            <router-link :to="{ name: 'memoContents', params: {id: index + 1} }">{{ memo.contents }}</router-link>
+            <router-link :to="{ name: 'memoContents', params: {id: index + 1} }" @click="showMemoContents(index)">{{ memo.contents }}</router-link>
           </td>
         </tr>
       </div>
@@ -21,21 +21,17 @@
 </template>
 
 <script>
+
+  import store from '@/store'
+
   export default {
     name: 'memoList',
-    data() {
-      return {
-        memoList: [
-          {contents: 'メモ1'},
-          {contents: 'メモ2'},
-          {contents: 'メモ3'},
-          {contents: 'メモ4'},
-          {contents: 'メモ5'},
-          {contents: 'メモ6'},
-          {contents: 'メモ7'},
-          {contents: 'メモ8'},
-          {contents: 'メモ9'}
-        ]
+    beforeCreate: function () {
+      store.commit('fetchLocalStorageToMemoList')
+    },
+    methods: {
+      showMemoContents: function (index) {
+        store.commit('updateMemoContents', index)
       }
     }
   }
