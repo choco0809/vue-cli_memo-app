@@ -1,23 +1,21 @@
 <template>
   <div class="main">
-    <textarea v-model="memoContents" placeholder="メモの内容"></textarea>
+    <textarea v-model="this.$store.state.memoContents" placeholder="メモの内容"></textarea>
     <button>削除</button>
-    <button @click="moveTop">更新</button>
+    <button @click="saveLocalStorage">更新</button>
   </div>
 </template>
 
 <script>
-import router from '@/router'
 
 export default ({
-  data(){
-    return{
-      memoContents: ''
-    }
-  },
   methods: {
     moveTop: function () {
-      router.push('/')
+      this.$router.push('/')
+    },
+    saveLocalStorage: function () {
+      console.log(this.$store.state.memoContents)
+      // store.commit('updateMemoList', {contents: })
     }
   }
 })
@@ -27,7 +25,6 @@ export default ({
 
 <style scoped>
 .main {
-  background-color: coral;
   width: 600px;
   height: 400px;
   margin-top: 10px;
