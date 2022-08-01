@@ -17,17 +17,20 @@ export default ({
     }
   },
   methods: {
-    addNewMemo:function () {
+    addNewMemo: function () {
       store.commit('addMemoList', { contents: this.memoContents })
-      this.saveTodoForLocalStorage()
+      this.saveMemoListForLocalStorage()
       this.memoContents = ''
       this.$router.push('/')
+    },
+    clearMemo: function () {
+
     },
     deleteMemo:function () {
       this.memoContents = ''
       this.$router.push('/')
     },
-    saveTodoForLocalStorage: function () {
+    saveMemoListForLocalStorage: function () {
       localStorage.setItem(this.$store.state.storageKey, JSON.stringify(this.$store.state.memoList))
     }
   }
@@ -38,7 +41,6 @@ export default ({
 
 <style scoped>
   .main {
-    background-color: coral;
     width: 600px;
     height: 400px;
     margin-top: 10px;

@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MemoContents from '../view/MemoContents'
-import NewMemo from '../view/NewMome'
+import MemoList from '../view/MemoList'
 
 const routes = [
+  {
+    path: '/',
+    name: 'memoList',
+    component: MemoList
+  },
   {
     path: '/edit/:id',
     name: 'memoContents',
@@ -12,7 +17,7 @@ const routes = [
   {
     path: '/new',
     name: 'newMemo',
-    component: NewMemo
+    component: MemoContents
   }
 ]
 

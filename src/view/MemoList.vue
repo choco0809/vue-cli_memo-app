@@ -2,7 +2,7 @@
   <div class="main">
     <h2>メモ一覧</h2>
     <table class="ellipsis">
-      <div class="newMemo">
+      <div>
         <tr>
           <td>
             <router-link to="/new">＋ 新規メモ</router-link>
@@ -10,9 +10,9 @@
         </tr>
       </div>
       <div class="memoList">
-        <tr v-for="(memo, index) in this.$store.state.memoList " :key="index">
+        <tr v-for="(memo, index) in memoList " :key="index">
           <td>
-            <router-link :to="{ name: 'memoContents', params: {id: index + 1} }" @click="showMemoContents(index)">{{ memo.contents }}</router-link>
+            <router-link :to="{ name: 'memoContents', params: {id: index + 1} }" @click="showMemoContents(index)">{{ fetchFirstLine(memo.contents) }}</router-link>
           </td>
         </tr>
       </div>
@@ -25,19 +25,28 @@
   import store from '@/store'
 
   export default {
+    data() {
+      return {
+        memoList: []
+      }
+    },
     name: 'memoList',
-    beforeCreate: function () {
+    mounted: function () {
       store.commit('fetchLocalStorageToMemoList')
+      this.memoList = this.$store.state.memoList
     },
     methods: {
       showMemoContents: function (index) {
-        store.commit('updateMemoContents', index)
+        store.commit('updateMemoContents', { index: index })
+      },
+      fetchFirstLine: function (contents) {
+        return contents.split('\n')[0]
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .main {
     height: 250px;
     width: 600px;

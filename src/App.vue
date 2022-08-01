@@ -1,16 +1,13 @@
 <template>
   <div class="main">
-    <MemoList/>
     <router-view/>
   </div>
 </template>
 
 <script>
 
-import MemoList from '@/view/MemoList'
 export default {
-  name: 'App',
-  components: {MemoList}
+  name: 'App'
 }
 </script>
 

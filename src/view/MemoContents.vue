@@ -1,34 +1,76 @@
 <template>
-  <div class="main">
-    <textarea v-model="this.$store.state.memoContents" placeholder="メモの内容"></textarea>
-    <button>削除</button>
-    <button @click="saveLocalStorage">更新</button>
+  <MemoList />
+  <div class="memoContents">
+    <div v-if="this.$route.path == '/new' ">
+      <textarea v-model="memoContents" placeholder="新規メモ"></textarea>
+      <button @click="clearMemo">削除</button>
+      <button @click="addNewMemo">登録</button>
+    </div>
+    <div v-else>
+      <textarea v-model="this.$store.state.memoContents" placeholder="メモの内容"></textarea>
+      <button @click="deleteMemoList">削除</button>
+      <button @click="updateMemoContents">更新</button>
+    </div>
   </div>
 </template>
 
 <script>
 
+import store from '@/store'
+import MemoList from '../view/MemoList'
+
 export default ({
+  components: { MemoList },
+  data() {
+    return {
+      memoContents: ''
+    }
+  },
+  mounted: function () {
+    if (this.$route.path === '/new') {
+      this.memoContents = ''
+    } else {
+      store.commit('updateMemoContents', { index:this.$route.params.id-1 })
+      this.memoContents = this.$store.state.memoContents
+    }
+  },
   methods: {
-    moveTop: function () {
-      this.$router.push('/')
+    addNewMemo:function () {
+      store.commit('addMemoList', { contents: this.memoContents })
+      this.saveMemoListForLocalStorage()
+      this.moveToRootPath()
     },
-    saveLocalStorage: function () {
-      console.log(this.$store.state.memoContents)
-      // store.commit('updateMemoList', {contents: })
+    clearMemo: function () {
+      this.moveToRootPath()
+    },
+    updateMemoContents: function () {
+      store.commit('updateMemoList', { index:this.$route.params.id-1, contents: this.$store.state.memoContents })
+      this.saveMemoListForLocalStorage()
+      this.moveToRootPath()
+    },
+    deleteMemoList: function () {
+      store.commit('deleteMemoList', { index:this.$route.params.id-1 })
+      this.saveMemoListForLocalStorage()
+      this.moveToRootPath()
+    },
+    saveMemoListForLocalStorage: function () {
+      localStorage.setItem(this.$store.state.storageKey, JSON.stringify(this.$store.state.memoList))
+    },
+    moveToRootPath: function () {
+      this.memoContents = ''
+      this.$router.push('/')
     }
   }
 })
 
-
 </script>
 
 <style scoped>
-.main {
+.memoContents {
   width: 600px;
   height: 400px;
-  margin-top: 10px;
-  background-color: white;
+  margin: 10px auto auto auto;
+  background-color: rebeccapurple;
   border: 5px #15B1AC solid;
 }
 textarea {
