@@ -36,7 +36,12 @@ export default ({
   },
   methods: {
     addNewMemo:function () {
-      store.commit('addMemoList', { contents: this.memoContents })
+      if (this.$store.state.memoList[0] === undefined) {
+        store.commit('addMemoList', { id: 0, contents: this.memoContents })
+      } else {
+        const maxObj = this.$store.state.memoList.reduce( (max, obj) => (max.id > obj.id) ? max : obj )
+        store.commit('addMemoList', { id: maxObj.id + 1, contents: this.memoContents })
+      }
       this.saveMemoListForLocalStorage()
       this.moveToRootPath()
     },

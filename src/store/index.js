@@ -16,13 +16,16 @@ const store = createStore({
       state.memoList = JSON.parse(localStorage.getItem(store.state.storageKey)) ?? []
     },
     updateMemoContents(state, payload) {
-      state.memoContents = state.memoList[payload.index].contents
+      const targetId = state.memoList.findIndex( (v) => v.id === payload.index )
+      state.memoContents = state.memoList[targetId].contents
     },
     updateMemoList(state, payload) {
-      state.memoList[payload.index].contents = payload.contents
+      const targetId = state.memoList.findIndex( (v) => v.id === payload.index )
+      state.memoList[targetId].contents = payload.contents
     },
     deleteMemoList(state, payload) {
-      state.memoList.splice(payload.index, 1)
+      const targetId = state.memoList.findIndex( (v) => v.id === payload.index )
+      state.memoList.splice(targetId, 1)
     }
   }
 })

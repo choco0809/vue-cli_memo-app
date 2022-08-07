@@ -10,9 +10,9 @@
         </tr>
       </div>
       <div class="memoList">
-        <tr v-for="(memo, index) in memoList " :key="index">
+        <tr v-for="(memo) in memoList " :key="memo">
           <td>
-            <router-link :to="{ name: 'memoContents', params: {id: index + 1} }" @click="showMemoContents(index)">{{ fetchFirstLine(memo.contents) }}</router-link>
+            <router-link :to="{ name: 'memoContents', params: {id: memo.id + 1} }" @click="showMemoContents(memo.id)">{{ fetchFirstLine(memo.contents) }}</router-link>
           </td>
         </tr>
       </div>
