@@ -23,6 +23,7 @@
 <script>
 
   import store from '@/store'
+  import { mapGetters } from 'vuex'
 
   export default {
     data() {
@@ -30,10 +31,13 @@
         memoList: []
       }
     },
+    computed: {
+      ...mapGetters(['fetchMemoList'])
+    },
     name: 'memoList',
     mounted: function () {
       store.commit('fetchLocalStorageToMemoList')
-      this.memoList = this.$store.state.memoList
+      this.memoList = this.fetchMemoList
     },
     methods: {
       showMemoContents: function (index) {

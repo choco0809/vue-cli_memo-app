@@ -18,6 +18,7 @@
 
 import store from '@/store'
 import MemoList from '../view/MemoList'
+import { mapGetters } from 'vuex'
 
 export default ({
   components: { MemoList },
@@ -26,12 +27,15 @@ export default ({
       memoContents: ''
     }
   },
+  computed: {
+    ...mapGetters(['fetchMemoList', 'fetchMemoContents', 'fetchStorageKey', 'maxMemoId'])
+  },
   mounted: function () {
     if (this.$route.path === '/new') {
       this.memoContents = ''
     } else {
       store.commit('updateMemoContents', { index:this.$route.params.id-1 })
-      this.memoContents = this.$store.state.memoContents
+      this.memoContents = this.fetchMemoContents
     }
   },
   methods: {
@@ -39,7 +43,7 @@ export default ({
       if (this.$store.state.memoList[0] === undefined) {
         store.commit('addMemoList', { id: 0, contents: this.memoContents })
       } else {
-        const maxObj = this.$store.state.memoList.reduce( (max, obj) => (max.id > obj.id) ? max : obj )
+        const maxObj = this.maxMemoId
         store.commit('addMemoList', { id: maxObj.id + 1, contents: this.memoContents })
       }
       this.saveMemoListForLocalStorage()
@@ -49,7 +53,7 @@ export default ({
       this.moveToRootPath()
     },
     updateMemoContents: function () {
-      store.commit('updateMemoList', { index:this.$route.params.id-1, contents: this.$store.state.memoContents })
+      store.commit('updateMemoList', { index:this.$route.params.id-1, contents: this.fetchMemoContents })
       this.saveMemoListForLocalStorage()
       this.moveToRootPath()
     },
@@ -59,7 +63,7 @@ export default ({
       this.moveToRootPath()
     },
     saveMemoListForLocalStorage: function () {
-      localStorage.setItem(this.$store.state.storageKey, JSON.stringify(this.$store.state.memoList))
+      localStorage.setItem(this.fetchStorageKey, JSON.stringify(this.fetchMemoList))
     },
     moveToRootPath: function () {
       this.memoContents = ''
