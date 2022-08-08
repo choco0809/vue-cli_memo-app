@@ -5,7 +5,8 @@ const store = createStore({
     return {
       storageKey: 'MyMemo',
       memoList: [],
-      memoContents: ''
+      memoContents: '',
+      newMemoTextArea: false
     }
   },
   getters: {
@@ -17,6 +18,9 @@ const store = createStore({
     },
     fetchStorageKey(state) {
       return state.storageKey
+    },
+    fetchNewMemoTextArea(state) {
+      return state.newMemoTextArea
     },
     maxMemoId(state) {
       return state.memoList.reduce( (max, obj) => (max.id > obj.id) ? max : obj )
@@ -36,6 +40,9 @@ const store = createStore({
     updateMemoList(state, payload) {
       const targetId = state.memoList.findIndex( (v) => v.id === payload.index )
       state.memoList[targetId].contents = payload.contents
+    },
+    updateNewMemoTextArea(state, payload) {
+      state.newMemoTextArea = payload.boolean
     },
     deleteMemoList(state, payload) {
       const targetId = state.memoList.findIndex( (v) => v.id === payload.index )

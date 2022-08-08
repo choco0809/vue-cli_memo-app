@@ -1,7 +1,7 @@
 <template>
   <MemoList />
   <div class="memoContents">
-    <div v-if="this.$route.path == '/new' ">
+    <div v-if="newMemoTextArea">
       <textarea v-model="memoContents" placeholder="新規メモ"></textarea>
       <button @click="clearMemo">削除</button>
       <button @click="addNewMemo">登録</button>
@@ -24,26 +24,30 @@ export default ({
   components: { MemoList },
   data() {
     return {
-      memoContents: ''
+      memoContents: '',
+      newMemoTextArea: false
     }
   },
   watch: {
     $route(to) {
-      console.log(to.path)
       if (to.path === '/new') {
         this.memoContents = ''
+        this.newMemoTextArea = this.fetchNewMemoTextArea
       } else if (to.path.match(/^\/edit\/\d/g)) {
         store.commit('updateMemoContents', { index:this.$route.params.id-1 })
         this.memoContents = this.fetchMemoContents
+        this.newMemoTextArea = this.fetchNewMemoTextArea
       }
     }
   },
   computed: {
-    ...mapGetters(['fetchMemoList', 'fetchMemoContents', 'fetchStorageKey', 'maxMemoId'])
+    ...mapGetters(['fetchMemoList', 'fetchMemoContents', 'fetchStorageKey', 'maxMemoId', 'fetchNewMemoTextArea'])
   },
   mounted: function () {
     if (this.$route.path === '/new') {
+      store.commit('updateNewMemoTextArea', {boolean: true})
       this.memoContents = ''
+      this.newMemoTextArea = this.fetchNewMemoTextArea
     } else {
       store.commit('updateMemoContents', { index:this.$route.params.id-1 })
       this.memoContents = this.fetchMemoContents

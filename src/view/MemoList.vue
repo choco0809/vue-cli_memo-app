@@ -5,7 +5,7 @@
       <div>
         <tr>
           <td>
-            <router-link to="/new">＋ 新規メモ</router-link>
+            <router-link to="/new" @click="newMemoTextArea">＋ 新規メモ</router-link>
           </td>
         </tr>
       </div>
@@ -42,9 +42,13 @@
     methods: {
       showMemoContents: function (index) {
         store.commit('updateMemoContents', { index: index })
+        store.commit('updateNewMemoTextArea', {boolean: false})
       },
       fetchFirstLine: function (contents) {
         return contents.split('\n')[0]
+      },
+      newMemoTextArea: function () {
+        store.commit('updateNewMemoTextArea', {boolean: true})
       }
     }
   }
