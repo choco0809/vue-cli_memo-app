@@ -7,7 +7,7 @@
       <button @click="addNewMemo">登録</button>
     </div>
     <div v-else>
-      <textarea v-model="this.$store.state.memoContents" placeholder="メモの内容"></textarea>
+      <textarea v-model="memoContents" placeholder="メモの内容"></textarea>
       <button @click="deleteMemoList">削除</button>
       <button @click="updateMemoContents">更新</button>
     </div>
@@ -25,6 +25,17 @@ export default ({
   data() {
     return {
       memoContents: ''
+    }
+  },
+  watch: {
+    $route(to) {
+      console.log(to.path)
+      if (to.path === '/new') {
+        this.memoContents = ''
+      } else if (to.path.match(/^\/edit\/\d/g)) {
+        store.commit('updateMemoContents', { index:this.$route.params.id-1 })
+        this.memoContents = this.fetchMemoContents
+      }
     }
   },
   computed: {
@@ -53,7 +64,7 @@ export default ({
       this.moveToRootPath()
     },
     updateMemoContents: function () {
-      store.commit('updateMemoList', { index:this.$route.params.id-1, contents: this.fetchMemoContents })
+      store.commit('updateMemoList', { index:this.$route.params.id-1, contents: this.memoContents })
       this.saveMemoListForLocalStorage()
       this.moveToRootPath()
     },
