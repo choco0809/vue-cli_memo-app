@@ -37,6 +37,7 @@ export default ({
         this.memoContents = this.fetchMemoContents
       }
     },
+    // ページ遷移時に実行する
     fetchNewMemoTextArea() {
       this.newMemoTextArea = this.fetchNewMemoTextArea
     }
@@ -47,9 +48,11 @@ export default ({
   mounted: function () {
     if (this.$route.path === '/new') {
       store.commit('updateNewMemoTextArea', {boolean: true})
+      this.newMemoTextArea = this.fetchNewMemoTextArea
       this.memoContents = ''
     } else {
       store.commit('updateMemoContents', { index:this.$route.params.id-1 })
+      this.newMemoTextArea = this.fetchNewMemoTextArea
       this.memoContents = this.fetchMemoContents
     }
   },
