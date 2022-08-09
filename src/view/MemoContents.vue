@@ -32,12 +32,13 @@ export default ({
     $route(to) {
       if (to.path === '/new') {
         this.memoContents = ''
-        this.newMemoTextArea = this.fetchNewMemoTextArea
       } else if (to.path.match(/^\/edit\/\d/g)) {
         store.commit('updateMemoContents', { index:this.$route.params.id-1 })
         this.memoContents = this.fetchMemoContents
-        this.newMemoTextArea = this.fetchNewMemoTextArea
       }
+    },
+    fetchNewMemoTextArea() {
+      this.newMemoTextArea = this.fetchNewMemoTextArea
     }
   },
   computed: {
@@ -47,10 +48,8 @@ export default ({
     if (this.$route.path === '/new') {
       store.commit('updateNewMemoTextArea', {boolean: true})
       this.memoContents = ''
-      this.newMemoTextArea = this.fetchNewMemoTextArea
     } else {
       store.commit('updateMemoContents', { index:this.$route.params.id-1 })
-      this.memoContents = this.fetchMemoContents
     }
   },
   methods: {
