@@ -36,7 +36,7 @@
     },
     name: 'memoList',
     mounted: function () {
-      store.commit('fetchLocalStorageToMemoList')
+      store.dispatch('fetchLocalStorageToMemoList')
       this.memoList = this.fetchMemoList
     },
     methods: {

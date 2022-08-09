@@ -48,6 +48,14 @@ const store = createStore({
       const targetId = state.memoList.findIndex( (v) => v.id === payload.index )
       state.memoList.splice(targetId, 1)
     }
+  },
+  actions: {
+    addMemoList(state, payload) {
+      state.commit('addMemoList', payload)
+    },
+    fetchLocalStorageToMemoList(state) {
+      state.commit('fetchLocalStorageToMemoList')
+    }
   }
 })
 
