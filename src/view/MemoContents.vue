@@ -50,6 +50,7 @@ export default ({
       this.memoContents = ''
     } else {
       store.commit('updateMemoContents', { index:this.$route.params.id-1 })
+      this.memoContents = this.fetchMemoContents
     }
   },
   methods: {
