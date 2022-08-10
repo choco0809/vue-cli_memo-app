@@ -5,8 +5,7 @@ const store = createStore({
     return {
       storageKey: 'MyMemo',
       memoList: [],
-      memoContents: '',
-      newMemoTextArea: false
+      memoContents: ''
     }
   },
   getters: {
@@ -18,9 +17,6 @@ const store = createStore({
     },
     fetchStorageKey(state) {
       return state.storageKey
-    },
-    fetchNewMemoTextArea(state) {
-      return state.newMemoTextArea
     },
     maxMemoId(state) {
       return state.memoList.reduce( (max, obj) => (max.id > obj.id) ? max : obj )
