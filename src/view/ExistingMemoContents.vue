@@ -22,13 +22,10 @@ export default ({
     }
   },
   mixins:[Mixin],
-  watch: {
-    $route(to) {
-      if (to.path.match(/^\/edit\/\d/g)) {
-        store.commit('updateMemoContents', { index:this.$route.params.id-1 })
-        this.memoContents = this.fetchMemoContents
-      }
-    }
+  beforeRouteUpdate(to, from, next){
+    store.commit('updateMemoContents', { index:to.params.id -1 })
+    this.memoContents = this.fetchMemoContents
+    next()
   },
   computed: {
     ...mapGetters(['fetchMemoList', 'fetchMemoContents', 'fetchStorageKey'])

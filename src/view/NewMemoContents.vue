@@ -22,6 +22,10 @@ export default ({
     }
   },
   mixins: [Mixin],
+  beforeRouteUpdate(to, from, next){
+    this.memoContents = ''
+    next()
+  },
   computed: {
     ...mapGetters(['fetchMemoList', 'fetchStorageKey', 'maxMemoId'])
   },
