@@ -12,6 +12,7 @@
 import store from '@/store'
 import MemoList from '../view/MemoList'
 import { mapGetters } from 'vuex'
+import Mixin from '../mixins/mixin'
 
 export default ({
   components: { MemoList },
@@ -20,6 +21,7 @@ export default ({
       memoContents: ''
     }
   },
+  mixins:[Mixin],
   watch: {
     $route(to) {
       if (to.path.match(/^\/edit\/\d/g)) {
@@ -45,13 +47,6 @@ export default ({
       store.commit('deleteMemoList', { index:this.$route.params.id-1 })
       this.saveMemoListForLocalStorage()
       this.moveToRootPath()
-    },
-    saveMemoListForLocalStorage: function () {
-      localStorage.setItem(this.fetchStorageKey, JSON.stringify(this.fetchMemoList))
-    },
-    moveToRootPath: function () {
-      this.memoContents = ''
-      this.$router.push('/')
     }
   }
 })

@@ -12,6 +12,7 @@
 import store from '@/store'
 import MemoList from '../view/MemoList'
 import { mapGetters } from 'vuex'
+import Mixin from '../mixins/mixin'
 
 export default ({
   components: { MemoList },
@@ -20,6 +21,7 @@ export default ({
       memoContents: ''
     }
   },
+  mixins: [Mixin],
   computed: {
     ...mapGetters(['fetchMemoList', 'fetchStorageKey', 'maxMemoId'])
   },
@@ -36,12 +38,6 @@ export default ({
     },
     clearMemo: function () {
       this.moveToRootPath()
-    },
-    saveMemoListForLocalStorage: function () {
-      localStorage.setItem(this.fetchStorageKey, JSON.stringify(this.fetchMemoList))
-    },
-    moveToRootPath: function () {
-      this.$router.push('/')
     }
   }
 })
